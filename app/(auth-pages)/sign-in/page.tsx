@@ -1,50 +1,41 @@
 import { signInAction, signInWithGmail } from "@/app/actions";
 import { FormMessage, Message } from "@/components/form-message";
-import { SubmitButton } from "@/components/submit-button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import Link from "next/link";
+import RetroButton from "@/components/RetroButton";
+import RetroCard from "@/components/RetroCard";
+import RetroInput from "@/components/RetroInput";
+import RetroSeparator from "@/components/RetroSeparator";
+import RetroTitle from "@/components/RetroTitle";
 
-export default async function Login(props: { searchParams: Promise<Message> }) {
-  const searchParams = await props.searchParams;
+export default async function Login() {
   return (
     <>
-      <form className="flex-1 flex flex-col min-w-64">
-        <h1 className="text-2xl font-medium">Sign in</h1>
-        <p className="text-sm text-foreground">
-          Don't have an account?{" "}
-          <Link
-            className="text-foreground font-medium underline"
-            href="/sign-up"
-          >
-            Sign up
-          </Link>
-        </p>
-        <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
-          <Label htmlFor="email">Email</Label>
-          <Input name="email" placeholder="you@example.com" required />
-          <div className="flex justify-between items-center">
-            <Label htmlFor="password">Password</Label>
-            <Link
-              className="text-xs text-foreground underline"
-              href="/forgot-password"
+      <div className="min-h-48 w-full bg-retro-black flex items-center justify-center p-4">
+        <RetroCard>
+          <RetroTitle>LOGIN</RetroTitle>
+          <form className="space-y-4">
+            <RetroInput id="email" name="email" label="Email" type="email" />
+            <RetroInput
+              id="password"
+              name="password"
+              label="Password"
+              type="password"
+            />
+
+            <RetroButton type="submit" formAction={signInAction}>
+              ENTER
+            </RetroButton>
+            <RetroSeparator />
+
+            <RetroButton
+              onClick={signInWithGmail}
+              className="bg-[#db4437] text-white flex items-center justify-center gap-2"
             >
-              Forgot Password?
-            </Link>
-          </div>
-          <Input
-            type="password"
-            name="password"
-            placeholder="Your password"
-            required
-          />
-          <SubmitButton pendingText="Signing In..." formAction={signInAction}>
-            Sign in
-          </SubmitButton>
-          <FormMessage message={searchParams} />
-        </div>
-      </form>
-      <button onClick={signInWithGmail}>Sign in GMAIL</button>
+              <span className="text-sm">📧</span>
+              LOGIN WITH GMAIL
+            </RetroButton>
+          </form>
+        </RetroCard>
+      </div>
     </>
   );
 }
